@@ -1,8 +1,8 @@
 package model.persistence;
 
+import model.Point;
 import model.ShapeColor;
 import controller.IMouseObserver;
-import controller.Point;
 import model.ShapeShadingType;
 import model.ShapeType;
 import model.StartAndEndPointMode;
@@ -32,6 +32,7 @@ public class ApplicationState implements IApplicationState, Serializable {
     private int width;
     private int height;
     
+    //Observer Pattern: mouseObserver- observers list(who needs to be notify)
     private ArrayList<IMouseObserver> mouseObservers = new ArrayList<IMouseObserver>();
     
     public ApplicationState(IUiModule uiModule) {
@@ -63,6 +64,7 @@ public class ApplicationState implements IApplicationState, Serializable {
     @Override
     public void setActiveStartAndEndPointMode() {
         activeStartAndEndPointMode = uiModule.getDialogResponse(dialogProvider.getChooseStartAndEndPointModeDialog());
+      //Observer Pattern: mouseObserver- notify Observer once the option is changed
         notifyObservers();
     }
 

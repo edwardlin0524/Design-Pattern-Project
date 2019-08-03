@@ -1,8 +1,8 @@
 package model.interfaces;
 
+import model.Point;
 import model.ShapeColor;
 import controller.IMouseObserver;
-import controller.Point;
 import model.ShapeShadingType;
 import model.ShapeType;
 import model.StartAndEndPointMode;

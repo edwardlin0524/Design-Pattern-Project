@@ -3,48 +3,46 @@ package controller;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import model.Point;
+import model.ShapeConfig;
+import model.ShapeList;
 import model.persistence.ApplicationState;
-import view.interfaces.PaintCanvasBase;
+//import view.interfaces.PaintCanvasBase;
 
 public class MouseDrawObserver extends MouseAdapter {
 
-	private PaintCanvasBase paintCanvas;
+	//private PaintCanvasBase paintCanvas;
+	private ShapeConfig config;
+	private ApplicationState appstate;
+	private ShapeList list;
+	
 	private Point startPoint;
 	private Point endPoint;
-	private int width;
-	private int height;
-	private ShapeConfig config = new ShapeConfig();
-	private ApplicationState appstate;
 	
-	//take paintCanvas and user's config as parameter
-	public MouseDrawObserver(PaintCanvasBase paintCanvas,ApplicationState appstate) {
+	
+	public MouseDrawObserver(ApplicationState appstate, ShapeList list) {//PaintCanvasBase paintCanvas,
 		this.appstate = appstate;
-		this.paintCanvas = paintCanvas;
+		//this.paintCanvas = paintCanvas;
+		this.list = list;
+		this.config =new ShapeConfig();
     }
 	@Override
 	public void mousePressed(MouseEvent e) {
-		//System.out.println("Mouse pressed!");
 	    startPoint = new Point(e.getX(), e.getY());
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		 
 		 System.out.println(appstate.getActiveStartAndEndPointMode());
 		 endPoint = new Point(e.getX(), e.getY());
 		 config.setStartPoint(startPoint); 
 		 config.setEndPoint(endPoint);
-		 width = config.getWidth();
-		 height = config.getHeight();
-		 //graphic.fillRect(config.getStartPointForDraw().getX(),config.getStartPointForDraw().getY(),width,height);
-		 //ShapeDrawer drawer = new ShapeDrawer(config.getStartPointForDraw().getX(),config.getStartPointForDraw().getY(),width,height,paintCanvas);
-		 IDrawShapeStrategy strategy=null; 
-		 switch(appstate.getActiveShapeType()){
-		 case RECTANGLE: strategy = new DrawRecStrategy();break;
-		 case ELLIPSE: strategy = new DrawEllStrategy();break;
-		 default:
-			break;
-		 }
-		 strategy.draw(config.getStartPointForDraw().getX(),config.getStartPointForDraw().getY(),width,height,paintCanvas);
+		 config.setShapeType(appstate.getActiveShapeType());
+		 config.setPrimaryColor(appstate.getActivePrimaryColor());
+		 config.setShadingType(appstate.getActiveShapeShadingType());
+		 
+		 DrawShapeCommand drawCmd = new DrawShapeCommand(config,list);
+		 drawCmd.run();
+		
 	}
 }

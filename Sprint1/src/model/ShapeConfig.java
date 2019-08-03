@@ -1,6 +1,9 @@
-package controller;
+package model;
 
-public class ShapeConfig {
+public class ShapeConfig{
+	
+    private ShapeColor primaryColor;
+    private ShapeColor secondaryColor;
 	private Point startPoint;
 	private Point endPoint;
 	// Following the def of drawRec method:
@@ -14,6 +17,40 @@ public class ShapeConfig {
 	private Point EndPointForDraw;
 	private int width;
 	private int height;
+    private ShapeType shapeType;
+    private ShapeShadingType shadingType;
+    
+    
+    public void setPrimaryColor(ShapeColor primaryColor) {
+        this.primaryColor = primaryColor;
+    }
+
+    public void setSecondaryColor(ShapeColor secondaryColor) {
+        this.secondaryColor = secondaryColor;
+    }
+    
+    public ShapeColor getPrimaryColor() {
+        return primaryColor;
+    }
+
+    public ShapeColor getSecondaryColor() {
+        return secondaryColor;
+    }
+
+    public void setShadingType(ShapeShadingType shadingType) {
+        this.shadingType = shadingType;
+    }
+
+    public void setShapeType(ShapeType shapeType) {
+        this.shapeType = shapeType;
+    }
+
+    public ShapeType getShapeType() {
+        return shapeType;
+    }
+    public ShapeShadingType getShadingType() {
+        return shadingType;
+    }
 
 	public void setStartPoint(Point startPoint) {
 		this.startPoint = startPoint;
@@ -71,5 +108,7 @@ public class ShapeConfig {
 		Point End = getEndPointForDraw();
 		return End.getY() - Start.getY();
 	}
+	
+
 
 }
