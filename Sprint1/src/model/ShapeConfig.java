@@ -1,6 +1,6 @@
 package model;
 
-public class ShapeConfig{
+public final class ShapeConfig{
 	
     private ShapeColor primaryColor;
     private ShapeColor secondaryColor;

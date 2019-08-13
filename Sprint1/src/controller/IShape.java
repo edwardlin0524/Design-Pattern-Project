@@ -1,9 +1,11 @@
 package controller;
 
 import java.awt.Graphics2D;
-
 import model.Point;
+import model.ShapeColor;
 import model.ShapeConfig;
+import model.ShapeShadingType;
+import model.ShapeType;
 
 public interface IShape {
 
@@ -13,9 +15,16 @@ public interface IShape {
 
 	Point getEndPoint();
 
+	ShapeType getShapeType();
+
+	ShapeShadingType getShadingType();
+
 	void setAdjustedEnd(Point adjustedEnd);
 
 	void setAdjustedStart(Point adjustedStart);
+	
+	ShapeColor getPrimaryColor();
+	ShapeColor getSecondaryColor();
 
 	Point getAdjustedStart();
 
@@ -27,15 +36,11 @@ public interface IShape {
 
 	boolean contains(Point start_Point);
 
-	ShapeConfig getShapeConfiguration();
+	ShapeConfig getConfig();
 
 	int getWidth();
 
 	int getHeight();
 
-	//void draw(PaintCanvasBase paintCanvas);
-
-	// void paint(Graphics2D g);
-
-	// void draw(Graphics2D g, IDrawShapeStrategy strategy);
+//	void outlineSelected(Graphics2D g);
 }

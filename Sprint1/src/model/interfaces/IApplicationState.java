@@ -1,6 +1,5 @@
 package model.interfaces;
 
-import model.Point;
 import model.ShapeColor;
 import controller.IMouseObserver;
 import model.ShapeShadingType;

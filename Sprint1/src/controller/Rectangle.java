@@ -1,56 +1,73 @@
 package controller;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 
 import model.EnumColor;
 import model.Point;
+import model.ShapeColor;
 import model.ShapeConfig;
 import model.ShapeShadingType;
+import model.ShapeType;
 
 public class Rectangle implements IShape {
 	private ShapeConfig config;
 	private ShapeShadingType shapeShadingType;
-	
+	private ShapeType shapeType;
+
 	private Color primaryColor;
 	private Color secondaryColor;
-	
+	private ShapeColor primaryShapeColor;
+	private ShapeColor secondaryShapeColor;
 	private int width;
 	private int height;
-	
+
 	private Point adjustedStart;
 	private Point adjustedEnd;
 	private Point startPoint;
+	private DrawRecStrategy str;
 
 	public Rectangle(ShapeConfig config) {
 		this.config = config;
 		this.shapeShadingType = config.getShadingType();
+		this.shapeType = config.getShapeType();
 		this.primaryColor = EnumColor.getColor(config.getPrimaryColor());
 		this.secondaryColor = EnumColor.getColor(config.getSecondaryColor());
+		this.primaryShapeColor = config.getPrimaryColor();
+		this.secondaryShapeColor = config.getSecondaryColor();
 		this.width = config.getWidth();
 		this.height = config.getHeight();
 		this.adjustedStart = config.getStartPointForDraw();
 		this.adjustedEnd = config.getEndPointForDraw();
 		this.startPoint = config.getStartPoint();
+
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
+		this.str = new DrawRecStrategy(width, height, adjustedStart.getX(), adjustedStart.getY(), primaryColor,
+				secondaryColor, g);
 		if (shapeShadingType.equals(ShapeShadingType.OUTLINE)) {
-			g.setColor(primaryColor);
-			g.drawRect(adjustedStart.getX(), adjustedStart.getY(), width, height);
+			str.outline();
 		} else if (shapeShadingType.equals(ShapeShadingType.FILLED_IN)) {
-			System.out.print(secondaryColor);
-			g.setColor(primaryColor);
-			g.fillRect(adjustedStart.getX(), adjustedStart.getY(), width, height);
+			str.fillIn();
 		} else if (shapeShadingType.equals(ShapeShadingType.OUTLINE_AND_FILLED_IN)) {
-			g.setColor(primaryColor);
-			g.drawRect(adjustedStart.getX(), adjustedStart.getY(), width, height);
-			g.setColor(secondaryColor);
-			g.fillRect(adjustedStart.getX(), adjustedStart.getY(), width, height);
+			str.outFill();
 		}
 	}
 
+//	@Override
+//	public void outlineSelected(Graphics2D g) {
+//		// dashed outline setting
+//		Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[] { 9 }, 0);
+//		g.setStroke(stroke);
+//		this.str = new DrawRecStrategy(width + 10, height + 10, adjustedStart.getX() - 5, adjustedStart.getY() - 5,
+//				primaryColor, secondaryColor, g);
+//		str.outline();
+//	}
+	@Override
 	public boolean contains(Point startPoint) {
 		return (adjustedStart.getX() < startPoint.getX() && adjustedStart.getY() < startPoint.getY()
 				&& adjustedStart.getX() + width > startPoint.getX()
@@ -106,14 +123,33 @@ public class Rectangle implements IShape {
 
 	}
 
-	public ShapeConfig getconfig() {
-		return config;
+	@Override
+	public ShapeConfig getConfig() {
+		return this.config;
 	}
 
 	@Override
-	public ShapeConfig getShapeConfiguration() {
+	public ShapeType getShapeType() {
 		// TODO Auto-generated method stub
-		return null;
+		return shapeType;
+	}
+
+	@Override
+	public ShapeShadingType getShadingType() {
+		// TODO Auto-generated method stub
+		return shapeShadingType;
+	}
+
+	@Override
+	public ShapeColor getPrimaryColor() {
+		// TODO Auto-generated method stub
+		return primaryShapeColor;
+	}
+
+	@Override
+	public ShapeColor getSecondaryColor() {
+		// TODO Auto-generated method stub
+		return secondaryShapeColor;
 	}
 
 }

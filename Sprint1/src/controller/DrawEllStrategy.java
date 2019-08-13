@@ -3,53 +3,44 @@ package controller;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import model.EnumColor;
-import model.ShapeConfig;
-import model.persistence.ApplicationState;
-import view.interfaces.PaintCanvasBase;
-
 public class DrawEllStrategy implements IDrawShapeStrategy {
 
 		
-	@Override
-	public void outline(Graphics2D g, ShapeConfig config) {
-		// TODO Auto-generated method stub
-		
-		int width = config.getWidth();
-		int height = config.getHeight();
-		int x = config.getStartPointForDraw().getX();
-		int y = config.getStartPointForDraw().getY();
-		Color primaryColor =EnumColor.getColor(config.getPrimaryColor());
-		g.setColor(primaryColor);
-        g.drawOval(x, y, width, height);
+	private int width,height,x,y;
+	private Color primaryColor;
+	private Color secondaryColor;
+	private Graphics2D g;
+	
+	DrawEllStrategy(int width,int height,int x,int y,Color primaryColor,Color secondaryColor,Graphics2D g){
+		this.width=width;
+		this.height = height;
+		this.x=x;
+		this.y = y;		
+		this.primaryColor = primaryColor;
+		this.g = g;
+		this.secondaryColor = secondaryColor;
 	}
 
 	@Override
-	public void fillIn(PaintCanvasBase paintCanvas,ApplicationState appstate, ShapeConfig config) {
+	public void outline() {
 		// TODO Auto-generated method stub
-		Graphics2D g = paintCanvas.getGraphics2D();
-		int width = config.getWidth();
-		int height = config.getHeight();
-		int x = config.getStartPointForDraw().getX();
-		int y = config.getStartPointForDraw().getY();
-		Color primaryColor =EnumColor.getColor(appstate.getActivePrimaryColor());
 		g.setColor(primaryColor);
-        g.fillOval(x, y, width, height);
+		g.drawOval(x, y, width, height);
 	}
 
 	@Override
-	public void outFill(PaintCanvasBase paintCanvas,ApplicationState appstate, ShapeConfig config) {
+	public void fillIn() {
 		// TODO Auto-generated method stub
-		Graphics2D g = paintCanvas.getGraphics2D();
-		int width = config.getWidth();
-		int height = config.getHeight();
-		int x = config.getStartPointForDraw().getX();
-		int y = config.getStartPointForDraw().getY();
-		Color secondColor =EnumColor.getColor(appstate.getActiveSecondaryColor());
-		outline(g,config);
-		g.setColor(secondColor);
-        g.fillOval(x, y, width, height);
+		g.setColor(primaryColor);
+		g.fillOval(x, y, width, height);
 	}
-		 
+	@Override
+	public void outFill() {
+		// TODO Auto-generated method stub
+		g.setColor(secondaryColor);
+		g.drawOval(x, y, width, height);
+		g.setColor(primaryColor);
+		g.fillOval(x, y, width, height);
+	}
 
 }

@@ -20,9 +20,8 @@ public class MouseDrawObserver extends MouseAdapter {
 	private Point endPoint;
 	
 	
-	public MouseDrawObserver(ApplicationState appstate, ShapeList list) {//PaintCanvasBase paintCanvas,
+	public MouseDrawObserver(ApplicationState appstate, ShapeList list) {
 		this.appstate = appstate;
-		//this.paintCanvas = paintCanvas;
 		this.list = list;
 		this.config =new ShapeConfig();
     }
@@ -35,10 +34,12 @@ public class MouseDrawObserver extends MouseAdapter {
 	public void mouseReleased(MouseEvent e) {
 		 System.out.println(appstate.getActiveStartAndEndPointMode());
 		 endPoint = new Point(e.getX(), e.getY());
+		 //config setting
 		 config.setStartPoint(startPoint); 
 		 config.setEndPoint(endPoint);
 		 config.setShapeType(appstate.getActiveShapeType());
 		 config.setPrimaryColor(appstate.getActivePrimaryColor());
+		 config.setSecondaryColor(appstate.getActiveSecondaryColor());
 		 config.setShadingType(appstate.getActiveShapeShadingType());
 		 
 		 DrawShapeCommand drawCmd = new DrawShapeCommand(config,list);

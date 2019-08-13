@@ -8,7 +8,7 @@ import controller.IShape;
 public interface IShapeListSubject {
     void add(IShape shape);
 
-    void remove(IShape shape);
+	void delete(IShape shape);
 
     ArrayList<IShape> getShapeList();
 
@@ -25,5 +25,7 @@ public interface IShapeListSubject {
     void clearSelectedShapeList();
 
 	void registerObserver(IShapeListObserver observer);
+
+
 
 }

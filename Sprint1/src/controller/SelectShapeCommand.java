@@ -29,7 +29,7 @@ public class SelectShapeCommand implements ICommand {
 
 			}
 		}
-		System.out.print("The Select List you've chosen is: " + list.getSelectedShapesList() + "\n");
+		System.out.print("The Select List: " + list.getSelectedShapesList() + "\n");
 	}
 
 }

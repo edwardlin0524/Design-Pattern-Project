@@ -17,12 +17,22 @@ public class ShapesDrawer implements IShapeListObserver{
 	@Override
 	public void update(ShapeList shapeList) {
         Graphics2D g = paintCanvas.getGraphics2D();
+        
         //make a huge white rectangle to have a clean screen
         g.setColor(Color.WHITE);
         g.fillRect(0,0, paintCanvas.getWidth(), paintCanvas.getHeight());
+    	
         for(IShape shape: shapeList.getShapeList()) {
             shape.draw(g);
-        }		
+            //if selected shapes are selected, draw an outline dashed outside
+            if(shapeList.getSelectedShapesList().contains(shape)) {
+                //shape.outlineSelected(g);
+                IDrawShapeStrategy decorator = 
+                		new SelectedShapeDecorator(shape.getShapeType(),shape.getWidth(),shape.getHeight(),shape.getAdjustedStart(),shape.getAdjustedEnd(),shape.getPrimaryColor(),shape.getSecondaryColor(),g);
+                decorator.outline();
+            }
+        }
+        
 	}
 
 }

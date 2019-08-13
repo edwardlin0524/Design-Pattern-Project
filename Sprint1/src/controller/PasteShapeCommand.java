@@ -1,32 +1,40 @@
 package controller;
 
-import java.awt.Graphics2D;
-
 import model.Point;
+import model.ShapeConfig;
 import model.ShapeList;
-import view.interfaces.PaintCanvasBase;
 
-public class PasteShapeCommand implements ICommand{
+public class PasteShapeCommand implements ICommand {
 	private final ShapeList clipboard;
-	private final Point startpoint = new Point(0,0);
-    private final PaintCanvasBase paint;
-	PasteShapeCommand(ShapeList clipboard, PaintCanvasBase paint){
+	private Point newstartpoint;
+	private Point newendpoint;
+	private ShapeConfig config;
+
+	PasteShapeCommand(ShapeList clipboard) {
 		this.clipboard = clipboard;
-		this.paint = paint;
-		if(!clipboard.getCliboard().isEmpty()) {
-			System.out.print("I do have something: "+clipboard.getCliboard()+"\n");
-		}
-		else {System.out.print("I got nothing \n");}
 	}
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		Graphics2D g = paint.getGraphics2D();
-		for(IShape shape:clipboard.getCliboard()) {
-			shape.setAdjustedStart(startpoint);
-			shape.setAdjustedEnd(startpoint);
-			shape.draw(g);
-		}
 		
+		System.out.print("The clipboard you have now is: " + clipboard.getCliboard() + "\n");
+		for (IShape shape : clipboard.getCliboard()) {
+			config = new ShapeConfig();
+			newstartpoint = new Point((shape.getAdjustedStart().getX() - 100), (shape.getAdjustedStart().getY() - 100));
+			newendpoint = new Point((shape.getAdjustedEnd().getX() - 100), (shape.getAdjustedEnd().getY() - 100));
+			
+			config.setStartPoint(newstartpoint);
+			config.setEndPoint(newendpoint);
+			config.setShapeType(shape.getShapeType());
+			config.setShadingType(shape.getShadingType());
+			config.setPrimaryColor(shape.getPrimaryColor());
+			config.setSecondaryColor(shape.getSecondaryColor());
+			
+			DrawShapeCommand draw = new DrawShapeCommand(config, clipboard);
+			draw.run();
+
+		}
+
 	}
 }

@@ -21,7 +21,7 @@ public class MoveShapeCommand implements ICommand {
         int dy = config.getEndPoint().getY() - config.getStartPoint().getY();
       
         for(IShape selected:list.getSelectedShapesList()) {
-        	list.remove(selected);
+        	list.delete(selected);
             selected.addX(dx);
             selected.addY(dy);
             list.add(selected);

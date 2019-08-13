@@ -1,18 +1,25 @@
 package controller;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 
 import model.EnumColor;
 import model.Point;
+import model.ShapeColor;
 import model.ShapeConfig;
 import model.ShapeShadingType;
+import model.ShapeType;
 
 public class Triangle implements IShape {
-	private ShapeConfig shapeConfiguration;
+	private ShapeConfig config;
 	private ShapeShadingType shapeShadingType;
+	private ShapeType shapeType;
 	private Color primaryColor;
 	private Color secondaryColor;
+	private ShapeColor primaryShapeColor;
+	private ShapeColor secondaryShapeColor;
 	private int width;
 	private int height;
 	private Point adjustedStart;
@@ -20,42 +27,52 @@ public class Triangle implements IShape {
 	private Point startPoint;
 	private int[] x = new int[3];
 	private int[] y = new int[3];
+	private DrawTriStrategy str;
 
-	public Triangle(ShapeConfig shapeConfiguration) {
-		this.shapeConfiguration = shapeConfiguration;
-		this.shapeShadingType = shapeConfiguration.getShadingType();
-		this.primaryColor = EnumColor.getColor(shapeConfiguration.getPrimaryColor());
-		this.secondaryColor = EnumColor.getColor(shapeConfiguration.getSecondaryColor());
-		this.adjustedStart = shapeConfiguration.getStartPointForDraw();
-		this.adjustedEnd = shapeConfiguration.getEndPointForDraw();
-		this.startPoint = shapeConfiguration.getStartPoint();
-		this.x[0] = shapeConfiguration.getStartPointForDraw().getX();
-		this.x[1] = shapeConfiguration.getEndPointForDraw().getX();
-		this.x[2] = shapeConfiguration.getStartPointForDraw().getX();
+	public Triangle(ShapeConfig config) {
+		this.config = config;
+		this.shapeShadingType = config.getShadingType();
+		this.shapeType = config.getShapeType();
+		this.primaryColor = EnumColor.getColor(config.getPrimaryColor());
+		this.primaryShapeColor = config.getPrimaryColor();
+		this.secondaryShapeColor = config.getSecondaryColor();
+		this.secondaryColor = EnumColor.getColor(config.getSecondaryColor());
+		this.adjustedStart = config.getStartPointForDraw();
+		this.adjustedEnd = config.getEndPointForDraw();
+		this.startPoint = config.getStartPoint();
+		this.x[0] = config.getStartPointForDraw().getX();
+		this.x[1] = config.getEndPointForDraw().getX();
+		this.x[2] = config.getStartPointForDraw().getX();
 
-		this.y[0] = shapeConfiguration.getStartPointForDraw().getY();
-		this.y[1] = shapeConfiguration.getEndPointForDraw().getY();
-		this.y[2] = shapeConfiguration.getEndPointForDraw().getY();
+		this.y[0] = config.getStartPointForDraw().getY();
+		this.y[1] = config.getEndPointForDraw().getY();
+		this.y[2] = config.getEndPointForDraw().getY();
+	
+		//These are for outline dashed shape
+       
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
 		// TODO Auto-generated method stub
+		this.str = new DrawTriStrategy(x, y, primaryColor, secondaryColor, g);
 		if (shapeShadingType.equals(ShapeShadingType.OUTLINE)) {
-			g.setColor(primaryColor);
-			// g2.setStroke(new BasicStroke(9));
-			g.drawPolygon(x, y, 3);
+			str.outline();
 		} else if (shapeShadingType.equals(ShapeShadingType.FILLED_IN)) {
-			g.setColor(primaryColor);
-			g.fillPolygon(x, y, 3);
+			str.fillIn();
 		} else if (shapeShadingType.equals(ShapeShadingType.OUTLINE_AND_FILLED_IN)) {
-			g.setColor(primaryColor);
-			// g2.setStroke(new BasicStroke(10));
-			g.drawPolygon(x, y, 3);
-			g.setColor(secondaryColor);
-			g.fillPolygon(x, y, 3);
+			str.outFill();
 		}
 	}
+
+//	@Override
+//	public void outlineSelected(Graphics2D g) {
+//		// dashed outline setting
+//		Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[] { 9 }, 0);
+//		g.setStroke(stroke);
+//		this.str = new DrawTriStrategy(x, y, primaryColor, secondaryColor, g);
+//		str.outline();
+//	}
 
 	double area(int x1, int y1, int x2, int y2, int x3, int y3) {
 		return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0);
@@ -70,7 +87,7 @@ public class Triangle implements IShape {
 
 		return (A == A1 + A2 + A3);
 	}
-
+	@Override
 	public boolean contains(Point startPoint) {
 		if (isInside(x[0], y[0], x[1], y[1], x[2], y[2], startPoint.getX(), startPoint.getY())) {
 			return true;
@@ -120,16 +137,44 @@ public class Triangle implements IShape {
 		this.y[2] = adjustedEnd.getY() + dy;
 	}
 
-	public ShapeConfig getShapeConfiguration() {
-		return shapeConfiguration;
+	@Override
+	public ShapeConfig getConfig() {
+		// TODO Auto-generated method stub
+		return config;
 	}
 
+	@Override
 	public int getWidth() {
 		return width;
 	}
 
+	@Override
 	public int getHeight() {
 		return height;
+	}
+
+	@Override
+	public ShapeType getShapeType() {
+		// TODO Auto-generated method stub
+		return shapeType;
+	}
+
+	@Override
+	public ShapeShadingType getShadingType() {
+		// TODO Auto-generated method stub
+		return shapeShadingType;
+	}
+
+	@Override
+	public ShapeColor getPrimaryColor() {
+		// TODO Auto-generated method stub
+		return primaryShapeColor;
+	}
+
+	@Override
+	public ShapeColor getSecondaryColor() {
+		// TODO Auto-generated method stub
+		return secondaryShapeColor;
 	}
 
 }
