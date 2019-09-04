@@ -2,13 +2,14 @@ package controller;
 
 import java.awt.event.MouseListener;
 
+import interfaces.IMouseObserver;
 import model.ShapeList;
 import model.StartAndEndPointMode;
 import model.persistence.ApplicationState;
 
 import view.interfaces.PaintCanvasBase;
 
-public class MouseHandler implements IMouseObserver {
+public class MouseHandler implements IMouseObserver{
 	private PaintCanvasBase paintCanvas;
 	private ApplicationState appstate;
 	private ShapeList list;

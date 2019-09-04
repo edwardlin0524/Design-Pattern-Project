@@ -2,7 +2,7 @@ package model.interfaces;
 
 import java.util.ArrayList;
 
-import controller.IShape;
+import interfaces.IShape;
 
 
 public interface IShapeListSubject {
@@ -11,8 +11,6 @@ public interface IShapeListSubject {
 	void delete(IShape shape);
 
     ArrayList<IShape> getShapeList();
-
-    void unsubscribe(IShapeListObserver paintCanvas);
 
     void notifyObserver();
 

@@ -1,5 +1,6 @@
 package controller;
 
+import interfaces.IJPaintController;
 import model.ShapeList;
 import model.interfaces.IApplicationState;
 import view.EventName;
@@ -31,5 +32,7 @@ public class JPaintController implements IJPaintController {
 		uiModule.addEvent(EventName.COPY, () -> new CopyShapeCommand(selectlist).run());
 		uiModule.addEvent(EventName.PASTE, () -> new PasteShapeCommand(selectlist).run());
 		uiModule.addEvent(EventName.DELETE, () -> new DeleteShapeCommand(selectlist).run());
+		uiModule.addEvent(EventName.UNDO, () -> new UndoCommand().run());
+		uiModule.addEvent(EventName.REDO, () -> new RedoCommand().run());
 	}
 }

@@ -1,8 +1,8 @@
 package main;
 
-import controller.IJPaintController;
 import controller.JPaintController;
 import controller.MouseHandler;
+import interfaces.IJPaintController;
 import model.ShapeList;
 import model.persistence.ApplicationState;
 import view.gui.Gui;

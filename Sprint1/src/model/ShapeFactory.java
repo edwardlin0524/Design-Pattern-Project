@@ -1,8 +1,8 @@
 package model;
 
-import controller.IShape;
 import controller.Rectangle;
 import controller.Triangle;
+import interfaces.IShape;
 import controller.Ellipse;
 
 public class ShapeFactory {

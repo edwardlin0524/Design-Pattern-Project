@@ -3,6 +3,8 @@ package controller;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import interfaces.IDrawShapeStrategy;
+
 public class DrawTriStrategy implements IDrawShapeStrategy {
 	private Color primaryColor;
 	private Color secondaryColor;

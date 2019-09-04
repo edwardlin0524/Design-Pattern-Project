@@ -2,7 +2,6 @@ package model.persistence;
 
 import model.Point;
 import model.ShapeColor;
-import controller.IMouseObserver;
 import model.ShapeShadingType;
 import model.ShapeType;
 import model.StartAndEndPointMode;
@@ -13,6 +12,8 @@ import view.interfaces.IUiModule;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import interfaces.IMouseObserver;
 
 public class ApplicationState implements IApplicationState, Serializable {
     private static final long serialVersionUID = -5545483996576839008L;

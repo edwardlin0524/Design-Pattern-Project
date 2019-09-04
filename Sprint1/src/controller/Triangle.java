@@ -1,16 +1,16 @@
 package controller;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 
+import interfaces.IShape;
 import model.EnumColor;
 import model.Point;
 import model.ShapeColor;
 import model.ShapeConfig;
 import model.ShapeShadingType;
 import model.ShapeType;
+import view.interfaces.PaintCanvasBase;
 
 public class Triangle implements IShape {
 	private ShapeConfig config;
@@ -47,14 +47,13 @@ public class Triangle implements IShape {
 		this.y[0] = config.getStartPointForDraw().getY();
 		this.y[1] = config.getEndPointForDraw().getY();
 		this.y[2] = config.getEndPointForDraw().getY();
-	
-		//These are for outline dashed shape
-       
+
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
+	public void draw(PaintCanvasBase paintCanvas) {
 		// TODO Auto-generated method stub
+		Graphics2D g = paintCanvas.getGraphics2D();
 		this.str = new DrawTriStrategy(x, y, primaryColor, secondaryColor, g);
 		if (shapeShadingType.equals(ShapeShadingType.OUTLINE)) {
 			str.outline();
@@ -64,15 +63,6 @@ public class Triangle implements IShape {
 			str.outFill();
 		}
 	}
-
-//	@Override
-//	public void outlineSelected(Graphics2D g) {
-//		// dashed outline setting
-//		Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[] { 9 }, 0);
-//		g.setStroke(stroke);
-//		this.str = new DrawTriStrategy(x, y, primaryColor, secondaryColor, g);
-//		str.outline();
-//	}
 
 	double area(int x1, int y1, int x2, int y2, int x3, int y3) {
 		return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0);
@@ -87,6 +77,7 @@ public class Triangle implements IShape {
 
 		return (A == A1 + A2 + A3);
 	}
+
 	@Override
 	public boolean contains(Point startPoint) {
 		if (isInside(x[0], y[0], x[1], y[1], x[2], y[2], startPoint.getX(), startPoint.getY())) {

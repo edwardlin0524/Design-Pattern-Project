@@ -1,15 +1,24 @@
 package controller;
 
+import java.util.ArrayList;
+
+import interfaces.ICommand;
+import interfaces.IShape;
+import interfaces.IUndoRedo;
 import model.Point;
 import model.ShapeConfig;
+import model.ShapeFactory;
 import model.ShapeList;
 
-public class PasteShapeCommand implements ICommand {
+public class PasteShapeCommand implements ICommand, IUndoRedo {
 	private final ShapeList clipboard;
 	private Point newstartpoint;
 	private Point newendpoint;
 	private ShapeConfig config;
-
+	private ShapeFactory factory=new ShapeFactory();;
+	private IShape shape;
+	private ShapeList list = new ShapeList();
+	private ArrayList<IShape> temp = new ArrayList<>();
 	PasteShapeCommand(ShapeList clipboard) {
 		this.clipboard = clipboard;
 	}
@@ -17,24 +26,44 @@ public class PasteShapeCommand implements ICommand {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
-		System.out.print("The clipboard you have now is: " + clipboard.getCliboard() + "\n");
-		for (IShape shape : clipboard.getCliboard()) {
-			config = new ShapeConfig();
-			newstartpoint = new Point((shape.getAdjustedStart().getX() - 100), (shape.getAdjustedStart().getY() - 100));
-			newendpoint = new Point((shape.getAdjustedEnd().getX() - 100), (shape.getAdjustedEnd().getY() - 100));
+
+		for (IShape selectedShape : clipboard.getCliboard()) {
+			config = new ShapeConfig();			
+			
+			newstartpoint = new Point((selectedShape.getAdjustedStart().getX() - 50), (selectedShape.getAdjustedStart().getY() - 50));
+			newendpoint = new Point((selectedShape.getAdjustedEnd().getX() - 50), (selectedShape.getAdjustedEnd().getY() - 50));
 			
 			config.setStartPoint(newstartpoint);
 			config.setEndPoint(newendpoint);
-			config.setShapeType(shape.getShapeType());
-			config.setShadingType(shape.getShadingType());
-			config.setPrimaryColor(shape.getPrimaryColor());
-			config.setSecondaryColor(shape.getSecondaryColor());
+			config.setShapeType(selectedShape.getShapeType());
+			config.setShadingType(selectedShape.getShadingType());
+			config.setPrimaryColor(selectedShape.getPrimaryColor());
+			config.setSecondaryColor(selectedShape.getSecondaryColor());
+
+			shape = factory.createShape(config);
+			temp.add(shape);
+			clipboard.add(shape);
 			
-			DrawShapeCommand draw = new DrawShapeCommand(config, clipboard);
-			draw.run();
-
 		}
+		System.out.print("The shapelist you have now is: " +list.getShapeList() + "\n");
+		CommandHistory.add(this);
+	}
 
+	@Override
+	public void undo() {
+		// TODO Auto-generated method stub
+		for(IShape shape: temp) {
+			
+			clipboard.delete(shape);	
+		}
+		
+	}
+
+	@Override
+	public void redo() {
+		// TODO Auto-generated method stub
+		for(IShape shape: temp) {
+			
+		clipboard.add(shape);}
 	}
 }

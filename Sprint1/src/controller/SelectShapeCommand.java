@@ -1,5 +1,7 @@
 package controller;
 
+import interfaces.ICommand;
+import interfaces.IShape;
 import model.ShapeConfig;
 import model.ShapeList;
 

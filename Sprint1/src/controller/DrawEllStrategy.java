@@ -3,22 +3,23 @@ package controller;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import interfaces.IDrawShapeStrategy;
+
 public class DrawEllStrategy implements IDrawShapeStrategy {
 
-		
-	private int width,height,x,y;
+	private int width, height, x, y;
 	private Color primaryColor;
 	private Color secondaryColor;
 	private Graphics2D g;
-	
-	DrawEllStrategy(int width,int height,int x,int y,Color primaryColor,Color secondaryColor,Graphics2D g){
-		this.width=width;
+
+	DrawEllStrategy(int width, int height, int x, int y, Color primaryColor, Color secondaryColor, Graphics2D g) {
+		this.width = width;
 		this.height = height;
-		this.x=x;
-		this.y = y;		
+		this.x = x;
+		this.y = y;
 		this.primaryColor = primaryColor;
-		this.g = g;
 		this.secondaryColor = secondaryColor;
+		this.g = g;
 	}
 
 	@Override
@@ -34,6 +35,7 @@ public class DrawEllStrategy implements IDrawShapeStrategy {
 		g.setColor(primaryColor);
 		g.fillOval(x, y, width, height);
 	}
+
 	@Override
 	public void outFill() {
 		// TODO Auto-generated method stub

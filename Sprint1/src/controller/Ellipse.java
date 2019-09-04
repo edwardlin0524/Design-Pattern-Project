@@ -1,32 +1,32 @@
 package controller;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 
+import interfaces.IShape;
 import model.EnumColor;
 import model.Point;
 import model.ShapeColor;
 import model.ShapeConfig;
 import model.ShapeShadingType;
 import model.ShapeType;
+import view.interfaces.PaintCanvasBase;
 
 public class Ellipse implements IShape {
-	private ShapeConfig config;
-	private ShapeShadingType shapeShadingType;
-	private ShapeType shapeType;
-	private Color primaryColor;
-	private Color secondaryColor;
-	private ShapeColor primaryShapeColor;
-	private ShapeColor secondaryShapeColor;
+	private final ShapeConfig config;
+	private final ShapeShadingType shapeShadingType;
+	private final ShapeType shapeType;
+	private final Color primaryColor;
+	private final Color secondaryColor;
+	private final ShapeColor primaryShapeColor;
+	private final ShapeColor secondaryShapeColor;
 
 	private int width;
 	private int height;
 
 	private Point adjustedStart;
 	private Point adjustedEnd;
-	private Point startPoint;
+	private final Point startPoint;
 	private DrawEllStrategy str;
 
 	public Ellipse(ShapeConfig config) {
@@ -45,9 +45,11 @@ public class Ellipse implements IShape {
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
-		this.str = new DrawEllStrategy(width, height, adjustedStart.getX(), adjustedStart.getY(), primaryColor,
-				secondaryColor, g);
+	public void draw(PaintCanvasBase paintCanvas) {// Graphics2D g
+		Graphics2D g = paintCanvas.getGraphics2D();
+		this.str = new DrawEllStrategy(width, height, adjustedStart.getX(), adjustedStart.getY(), this.primaryColor,
+				this.secondaryColor, g);// width, height, adjustedStart.getX(), adjustedStart.getY(), this.primaryColor,
+										// this.secondaryColor
 		if (shapeShadingType.equals(ShapeShadingType.OUTLINE)) {
 			str.outline();
 		} else if (shapeShadingType.equals(ShapeShadingType.FILLED_IN)) {
@@ -56,17 +58,6 @@ public class Ellipse implements IShape {
 			str.outFill();
 		}
 	}
-
-//	@Override
-//	public void outlineSelected(Graphics2D g) {
-//		// dashed outline setting
-//		Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[] { 9 }, 0);
-//		g.setStroke(stroke);
-//
-//		this.str = new DrawEllStrategy(width + 10, height + 10, adjustedStart.getX() - 5, adjustedStart.getY() - 5,
-//				primaryColor, secondaryColor, g);
-//		str.outline();
-//	}
 
 	@Override
 	public boolean contains(Point startPoint) {
@@ -105,10 +96,8 @@ public class Ellipse implements IShape {
 
 	@Override
 	public void addX(int dx) {
-		System.out.print("x was :" + adjustedStart.getX());
 		adjustedStart.setX(adjustedStart.getX() + dx);
 		adjustedEnd.setX(adjustedEnd.getX() + dx);
-		System.out.print("x now is :" + adjustedStart.getX());
 	}
 
 	@Override

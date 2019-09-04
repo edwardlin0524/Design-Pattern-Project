@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-import controller.IShape;
+import interfaces.IShape;
 import model.interfaces.IShapeListObserver;
 import model.interfaces.IShapeListSubject;
 
@@ -45,11 +45,6 @@ public class ShapeList implements IShapeListSubject {
 		observers.add(observer);
 	}
 
-	@Override
-	public void unsubscribe(IShapeListObserver paintCanvas) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void notifyObserver() {

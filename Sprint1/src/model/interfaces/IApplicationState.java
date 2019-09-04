@@ -1,7 +1,7 @@
 package model.interfaces;
 
+import interfaces.IMouseObserver;
 import model.ShapeColor;
-import controller.IMouseObserver;
 import model.ShapeShadingType;
 import model.ShapeType;
 import model.StartAndEndPointMode;

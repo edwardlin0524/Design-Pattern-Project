@@ -1,16 +1,16 @@
 package controller;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 
+import interfaces.IShape;
 import model.EnumColor;
 import model.Point;
 import model.ShapeColor;
 import model.ShapeConfig;
 import model.ShapeShadingType;
 import model.ShapeType;
+import view.interfaces.PaintCanvasBase;
 
 public class Rectangle implements IShape {
 	private ShapeConfig config;
@@ -46,7 +46,8 @@ public class Rectangle implements IShape {
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
+	public void draw(PaintCanvasBase paintCanvas) {
+		Graphics2D g = paintCanvas.getGraphics2D();
 		this.str = new DrawRecStrategy(width, height, adjustedStart.getX(), adjustedStart.getY(), primaryColor,
 				secondaryColor, g);
 		if (shapeShadingType.equals(ShapeShadingType.OUTLINE)) {
@@ -58,15 +59,6 @@ public class Rectangle implements IShape {
 		}
 	}
 
-//	@Override
-//	public void outlineSelected(Graphics2D g) {
-//		// dashed outline setting
-//		Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[] { 9 }, 0);
-//		g.setStroke(stroke);
-//		this.str = new DrawRecStrategy(width + 10, height + 10, adjustedStart.getX() - 5, adjustedStart.getY() - 5,
-//				primaryColor, secondaryColor, g);
-//		str.outline();
-//	}
 	@Override
 	public boolean contains(Point startPoint) {
 		return (adjustedStart.getX() < startPoint.getX() && adjustedStart.getY() < startPoint.getY()
